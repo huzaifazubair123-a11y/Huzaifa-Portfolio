@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huzaifa — Social Media Manager & Content Strategist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+        body {
+            background: #0a0a0a; color: #e0e0e0; font-family: 'Inter', sans-serif;
+            font-weight: 400; line-height: 1.6; overflow-x: hidden; cursor: none;
+        }
+        ::selection { background: #c8ff00; color: #0a0a0a; }
+        img, video { display: block; max-width: 100%; }
+        h1,h2,h3,h4,h5 { font-family: 'Syne', sans-serif; font-weight: 700; }
+
+        /* Cursor */
+        .cursor-dot { width: 8px; height: 8px; background: #c8ff00; border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99999; mix-blend-mode: difference; }
+        .cursor-ring { width: 36px; height: 36px; border: 1.5px solid rgba(200,255,0,0.3); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 99998; }
+
+        /* Nav */
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 16px 48px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(20px); background: rgba(10,10,10,0.7); border-bottom: 1px solid rgba(255,255,255,0.04); transition: padding 0.3s; }
+        nav.scrolled { padding: 10px 48px; background: rgba(10,10,10,0.92); }
+        .nav-logo { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; color: #fff; }
+        .nav-logo span { color: #c8ff00; }
+        .nav-links { display: flex; gap: 26px; list-style: none; }
+        .nav-links li a { font-size: 0.76rem; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; color: rgba(255,255,255,0.4); transition: color 0.3s; text-decoration: none; cursor: none; }
+        .nav-links li a:hover { color: #c8ff00; }
+        .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: none; padding: 4px; }
+        .nav-toggle span { display: block; width: 22px; height: 2px; background: #fff; transition: all 0.3s; }
+        .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(10,10,10,0.97); z-index: 999; flex-direction: column; justify-content: center; align-items: center; gap: 24px; }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 700; color: rgba(255,255,255,0.7); text-decoration: none; cursor: none; transition: color 0.3s; }
+        .mobile-menu a:hover { color: #c8ff00; }
+
+        /* Sections */
+        .section { padding: 64px 48px; max-width: 1320px; margin: 0 auto; }
+        .section-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #c8ff00; margin-bottom: 10px; }
+        .section-heading { font-size: clamp(1.7rem, 3.8vw, 3rem); line-height: 1.15; color: #fff; letter-spacing: -1.5px; margin-bottom: 12px; }
+
+        /* Reveal */
+        .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-d1 { transition-delay: 0.1s; } .reveal-d2 { transition-delay: 0.18s; } .reveal-d3 { transition-delay: 0.26s; } .reveal-d4 { transition-delay: 0.32s; }
+
+        /* ===== HERO ===== */
+        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 100px 48px 50px; max-width: 1320px; margin: 0 auto; position: relative; }
+        .hero-row { display: flex; align-items: center; gap: 48px; }
+        .hero-text { flex: 1; }
+        .hero-photo { width: 200px; height: 200px; border-radius: 50%; overflow: hidden; border: 2px solid rgba(200,255,0,0.12); flex-shrink: 0; }
+        .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .hero h1 { font-size: clamp(2.2rem, 5.2vw, 4.5rem); line-height: 1.06; letter-spacing: -2.5px; color: #fff; margin-bottom: 18px; }
+        .hero h1 .accent { color: #c8ff00; }
+        .hero-sub { font-size: clamp(0.92rem, 1.3vw, 1.05rem); color: rgba(255,255,255,0.48); max-width: 560px; line-height: 1.7; margin-bottom: 28px; font-weight: 300; }
+        .hero-pills { display: flex; gap: 10px; flex-wrap: wrap; }
+        .pill { display: inline-flex; align-items: center; gap: 7px; padding: 7px 18px; border: 1px solid rgba(200,255,0,0.15); border-radius: 100px; font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.65); background: rgba(200,255,0,0.03); }
+        .pill .num { color: #c8ff00; font-family: 'Syne', sans-serif; font-weight: 800; }
+        .scroll-indicator { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .scroll-indicator span { font-size: 0.58rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.18); }
+        .scroll-line { width: 1px; height: 36px; background: linear-gradient(to bottom, #c8ff00, transparent); animation: scrollPulse 2s ease-in-out infinite; }
+        @keyframes scrollPulse { 0%,100% { opacity: 0.3; transform: scaleY(0.6); } 50% { opacity: 1; transform: scaleY(1); } }
+
+        /* ===== INTRO VIDEO ===== */
+        .intro-video-section { padding: 0 48px 40px; max-width: 1320px; margin: 0 auto; }
+        .intro-video-wrap { position: relative; width: 100%; max-width: 860px; margin: 0 auto; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); aspect-ratio: 16/9; background: #111; }
+        .intro-video-wrap video { width: 100%; height: 100%; object-fit: cover; }
+
+        /* ===== SERVICES ===== */
+        .services-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-top: 28px; }
+        .service-card { padding: 28px 22px; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; background: rgba(255,255,255,0.02); transition: all 0.3s; position: relative; }
+        .service-card::after { content:''; position: absolute; inset: 0; border-radius: 12px; border: 1px solid transparent; transition: border-color 0.3s; pointer-events: none; }
+        .service-card:hover::after { border-color: #c8ff00; }
+        .service-card:hover { background: rgba(200,255,0,0.02); transform: translateY(-2px); }
+        .service-num { font-family: 'Syne', sans-serif; font-size: 0.62rem; font-weight: 700; color: rgba(200,255,0,0.28); letter-spacing: 1px; margin-bottom: 16px; }
+        .service-card h3 { font-size: 1.05rem; color: #fff; margin-bottom: 8px; letter-spacing: -0.3px; }
+        .service-card p { font-size: 0.82rem; color: rgba(255,255,255,0.35); line-height: 1.55; }
+
+        /* ===== TOOLS ===== */
+        .tools-section { padding: 28px 48px; max-width: 1320px; margin: 0 auto; }
+        .tools-label { font-size: 0.62rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.16); text-align: center; margin-bottom: 20px; }
+        .tools-grid { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 18px; }
+        .tool-icon { width: 42px; height: 42px; border-radius: 10px; overflow: hidden; opacity: 0.4; transition: all 0.3s; filter: grayscale(30%); }
+        .tool-icon:hover { opacity: 1; transform: scale(1.1); filter: grayscale(0%); }
+        .tool-icon img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* ===== MARQUEE ===== */
+        .marquee-section { padding: 40px 0; border-top: 1px solid rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.04); overflow: hidden; }
+        .marquee-track { display: flex; width: max-content; animation: marquee 28s linear infinite; }
+        .marquee-track:hover { animation-play-state: paused; }
+        .marquee-item { font-family: 'Syne', sans-serif; font-size: clamp(1.1rem,2.2vw,1.8rem); font-weight: 600; color: rgba(255,255,255,0.1); white-space: nowrap; padding: 0 24px; letter-spacing: -0.5px; transition: color 0.3s; }
+        .marquee-item:hover { color: rgba(200,255,0,0.4); }
+        .marquee-sep { color: rgba(200,255,0,0.2); padding: 0 4px; font-size: clamp(1.1rem,2.2vw,1.8rem); }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* ===== PORTFOLIO ===== */
+        .portfolio-category { margin-bottom: 48px; }
+        .portfolio-category:last-child { margin-bottom: 0; }
+        .cat-header { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+        .cat-header h3 { font-size: 1.1rem; font-weight: 700; color: rgba(255,255,255,0.7); letter-spacing: -0.3px; white-space: nowrap; }
+        .cat-header .line { flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
+        .cat-header .count { font-size: 0.68rem; font-weight: 500; color: rgba(200,255,0,0.4); letter-spacing: 0.5px; white-space: nowrap; }
+
+        .portfolio-grid { columns: 3; column-gap: 12px; }
+        .portfolio-item { break-inside: avoid; margin-bottom: 12px; border-radius: 10px; overflow: hidden; position: relative; background: #111; border: 1px solid rgba(255,255,255,0.04); transition: all 0.3s; }
+        .portfolio-item:hover { border-color: rgba(200,255,0,0.15); }
+        .portfolio-item img, .portfolio-item video { width: 100%; display: block; object-fit: cover; }
+        .portfolio-item img, .portfolio-item video { width: 100%; height: auto; }
+        .portfolio-item .overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 14px 12px; background: linear-gradient(to top, rgba(10,10,10,0.85) 0%, transparent 100%); opacity: 0; transition: opacity 0.3s; }
+        .portfolio-item:hover .overlay { opacity: 1; }
+        .overlay-tag { font-size: 0.62rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #c8ff00; margin-bottom: 2px; }
+        .overlay-title { font-family: 'Syne', sans-serif; font-size: 0.82rem; font-weight: 600; color: #fff; }
+        .play-indicator { position: absolute; top: 10px; right: 10px; width: 26px; height: 26px; background: rgba(10,10,10,0.5); backdrop-filter: blur(6px); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.08); }
+        .play-indicator::after { content:''; width: 0; height: 0; border-style: solid; border-width: 4px 0 4px 7px; border-color: transparent transparent transparent #c8ff00; margin-left: 2px; }
+
+        /* ===== CLIENTS ===== */
+        .clients-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 28px; }
+        .client-card { padding: 24px 20px; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; background: rgba(255,255,255,0.015); text-align: center; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 90px; }
+        .client-card:hover { border-color: rgba(200,255,0,0.15); background: rgba(200,255,0,0.02); transform: translateY(-2px); }
+        .client-card h4 { font-size: 0.95rem; color: #fff; letter-spacing: -0.3px; }
+        .client-card p { font-size: 0.68rem; color: rgba(255,255,255,0.25); font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
+
+        /* ===== REVIEWS ===== */
+        .reviews-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 28px; }
+        .review-card { padding: 28px 24px; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; background: rgba(255,255,255,0.02); display: flex; flex-direction: column; gap: 14px; transition: all 0.3s; }
+        .review-card:hover { border-color: rgba(200,255,0,0.1); transform: translateY(-2px); }
+        .review-stars { font-size: 0.9rem; letter-spacing: 2px; color: #c8ff00; }
+        .review-text { font-size: 0.88rem; line-height: 1.7; color: rgba(255,255,255,0.5); font-style: italic; flex: 1; }
+        .review-author { margin-top: auto; }
+        .review-author strong { display: block; font-family: 'Syne', sans-serif; font-size: 0.88rem; color: #fff; font-weight: 600; }
+        .review-author span { font-size: 0.72rem; color: rgba(255,255,255,0.25); }
+
+        /* ===== WHY ME ===== */
+        .why-me-list { margin-top: 32px; display: flex; flex-direction: column; gap: 28px; }
+        .why-item { display: flex; align-items: flex-start; gap: 20px; }
+        .why-num { font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 800; color: #c8ff00; min-width: 28px; padding-top: 5px; }
+        .why-item p { font-family: 'Syne', sans-serif; font-size: clamp(1.15rem,2.2vw,1.8rem); font-weight: 700; color: #fff; line-height: 1.3; letter-spacing: -0.7px; }
+        .why-divider { width: 100%; height: 1px; background: rgba(255,255,255,0.04); }
+
+        /* ===== FOOTER ===== */
+        .footer { padding: 32px 48px; text-align: center; border-top: 1px solid rgba(255,255,255,0.04); }
+        .footer p { font-size: 0.72rem; color: rgba(255,255,255,0.16); letter-spacing: 0.3px; }
+
+        /* ===== LOADER ===== */
+        .loader { position: fixed; inset: 0; background: #0a0a0a; z-index: 100000; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s, visibility 0.5s; }
+        .loader.done { opacity: 0; visibility: hidden; pointer-events: none; }
+        .loader-text { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; color: #fff; letter-spacing: 4px; }
+
+        /* Grain */
+        .grain { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.02; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-repeat: repeat; background-size: 128px; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .services-grid { grid-template-columns: repeat(2,1fr); }
+            .portfolio-grid { columns: 2; }
+            .reviews-grid { grid-template-columns: 1fr; }
+            .section { padding: 48px 28px; }
+        }
+        @media (max-width: 768px) {
+            nav { padding: 12px 20px; }
+            .nav-links { display: none; }
+            .nav-toggle { display: flex; }
+            .hero { padding: 90px 20px 40px; }
+            .hero-row { flex-direction: column-reverse; gap: 24px; align-items: flex-start; }
+            .hero-photo { width: 110px; height: 110px; }
+            .section { padding: 40px 20px; }
+            .services-grid { grid-template-columns: 1fr; gap: 10px; }
+            .portfolio-grid { columns: 2; column-gap: 8px; }
+            .portfolio-item { margin-bottom: 8px; }
+            .clients-grid { grid-template-columns: repeat(2,1fr); gap: 8px; }
+            .reviews-grid { gap: 10px; }
+            .intro-video-section { padding: 0 20px 28px; }
+            .tools-section { padding: 20px 20px; }
+            .footer { padding: 24px 20px; }
+        }
+        @media (max-width: 480px) {
+            .hero h1 { letter-spacing: -1.5px; }
+            .pill { padding: 6px 12px; font-size: 0.72rem; }
+            .clients-grid { grid-template-columns: 1fr 1fr; }
+            .cat-header h3 { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="loader" id="loader"><div class="loader-text">HUZAIFA</div></div>
+<div class="grain"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Nav -->
+<nav id="navbar">
+    <div class="nav-logo">HUZAIFA<span>.</span></div>
+    <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#clients">Clients</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#services" onclick="closeMobile()">Services</a>
+    <a href="#work" onclick="closeMobile()">Work</a>
+    <a href="#clients" onclick="closeMobile()">Clients</a>
+    <a href="#reviews" onclick="closeMobile()">Reviews</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+    <div class="hero-row">
+        <div class="hero-text">
+            <h1 class="reveal">Social Media<br>That Actually<br><span class="accent">Builds Brands.</span></h1>
+            <p class="hero-sub reveal reveal-d1">I'm Huzaifa — Social Media Manager & Content Strategist helping businesses grow with content that connects, converts, and keeps clients coming back.</p>
+            <div class="hero-pills reveal reveal-d2">
+                <div class="pill"><span class="num">3+</span> Years Experience</div>
+                <div class="pill"><span class="num">12+</span> Brands Managed</div>
+            </div>
+        </div>
+        <div class="hero-photo reveal reveal-d2">
+            <img src="intro/profile.jpg" alt="Huzaifa">
+        </div>
+    </div>
+    <div class="scroll-indicator reveal reveal-d3">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+    </div>
+</section>
+
+<!-- INTRO VIDEO -->
+<section class="intro-video-section reveal">
+    <div class="intro-video-wrap">
+        <video src="intro/intro.mp4" controls playsinline preload="metadata"></video>
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+    <div class="section-label reveal">What I Do</div>
+    <h2 class="section-heading reveal">Full-service social media<br>built for growth.</h2>
+    <div class="services-grid">
+        <div class="service-card reveal reveal-d1"><div class="service-num">01</div><h3>Social Media Management</h3><p>Full account management, content calendars, community engagement — the entire operation, handled.</p></div>
+        <div class="service-card reveal reveal-d2"><div class="service-num">02</div><h3>Content Strategy</h3><p>Platform-specific strategies built around your audience and goals. No guesswork, no templates.</p></div>
+        <div class="service-card reveal reveal-d3"><div class="service-num">03</div><h3>Short-Form Video Editing</h3><p>Reels, Shorts, TikToks engineered to stop the scroll and drive real engagement.</p></div>
+        <div class="service-card reveal reveal-d4"><div class="service-num">04</div><h3>Meta Advertising</h3><p>Paid campaigns on Facebook & Instagram that bring measurable, trackable returns.</p></div>
+    </div>
+</section>
+
+<!-- TOOLS -->
+<section class="tools-section reveal">
+    <div class="tools-label">Tools & Platforms</div>
+    <div class="tools-grid">
+        <div class="tool-icon"><img src="software/tool-1.png" alt="Tool" loading="lazy"></div>
+        <div class="tool-icon"><img src="software/tool-2.png" alt="Tool" loading="lazy"></div>
+        <div class="tool-icon"><img src="software/tool-3.png" alt="Tool" loading="lazy"></div>
+        <div class="tool-icon"><img src="software/tool-4.png" alt="Tool" loading="lazy"></div>
+        <div class="tool-icon"><img src="software/tool-5.png" alt="Tool" loading="lazy"></div>
+        <div class="tool-icon"><img src="software/tool-6.png" alt="Tool" loading="lazy"></div>
+        <div class="tool-icon"><img src="software/tool-7.png" alt="Tool" loading="lazy"></div>
+        <div class="tool-icon"><img src="software/tool-8.png" alt="Tool" loading="lazy"></div>
+        <div class="tool-icon"><img src="software/tool-9.png" alt="Tool" loading="lazy"></div>
+        <div class="tool-icon"><img src="software/tool-10.png" alt="Tool" loading="lazy"></div>
+        <div class="tool-icon"><img src="software/tool-11.jpg" alt="Tool" loading="lazy"></div>
+        <div class="tool-icon"><img src="software/tool-12.png" alt="Tool" loading="lazy"></div>
+    </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="marquee-section">
+    <div class="marquee-track">
+        <span class="marquee-item">Hospitality</span><span class="marquee-sep">&middot;</span>
+        <span class="marquee-item">Real Estate</span><span class="marquee-sep">&middot;</span>
+        <span class="marquee-item">E-Commerce</span><span class="marquee-sep">&middot;</span>
+        <span class="marquee-item">Tech & Apps</span><span class="marquee-sep">&middot;</span>
+        <span class="marquee-item">Legal</span><span class="marquee-sep">&middot;</span>
+        <span class="marquee-item">Travel & Resorts</span><span class="marquee-sep">&middot;</span>
+        <span class="marquee-item">Landscaping</span><span class="marquee-sep">&middot;</span>
+        <span class="marquee-item">Education</span><span class="marquee-sep">&middot;</span>
+        <span class="marquee-item">Fitness</span><span class="marquee-sep">&middot;</span>
+        <span class="marquee-item">Hospitality</span><span class="marquee-sep">&middot;</span>
+        <span class="marquee-item">Real Estate</span><span class="marquee-sep">&middot;</span>
+        <span class="marquee-item">E-Commerce</span><span class="marquee-sep">&middot;</span>
+        <span class="marquee-item">Tech & Apps</span><span class="marquee-sep">&middot;</span>
+        <span class="marquee-item">Legal</span><span class="marquee-sep">&middot;</span>
+        <span class="marquee-item">Travel & Resorts</span><span class="marquee-sep">&middot;</span>
+        <span class="marquee-item">Landscaping</span><span class="marquee-sep">&middot;</span>
+        <span class="marquee-item">Education</span><span class="marquee-sep">&middot;</span>
+        <span class="marquee-item">Fitness</span><span class="marquee-sep">&middot;</span>
+    </div>
+</section>
+
+<!-- ===== CLIENT WORK — ORGANIZED BY FOLDER ===== -->
+<section class="section" id="work">
+    <div class="section-label reveal">Portfolio</div>
+    <h2 class="section-heading reveal">Work That Speaks For Itself.</h2>
+
+    <!-- HOSPITALITY -->
+    <div class="portfolio-category reveal">
+        <div class="cat-header"><h3>Hospitality</h3><div class="line"></div><span class="count">7 pieces</span></div>
+        <div class="portfolio-grid">
+            <div class="portfolio-item reel">
+                <video src="hospitality/pelicano-brunch-reel.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Reel</div><div class="overlay-title">Pelicano Sydney — Brunch</div></div>
+            </div>
+            <div class="portfolio-item reel">
+                <video src="hospitality/pelicano-pov-reel.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Reel</div><div class="overlay-title">Pelicano — POV Night Out</div></div>
+            </div>
+            <div class="portfolio-item reel">
+                <video src="hospitality/coffeeroom-lifestyle-reel.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Reel</div><div class="overlay-title">Coffee Room Coogee — Lifestyle</div></div>
+            </div>
+            <div class="portfolio-item reel">
+                <video src="hospitality/restaurant-content-reel.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Reel</div><div class="overlay-title">Restaurant Content</div></div>
+            </div>
+            <div class="portfolio-item reel">
+                <video src="hospitality/restaurant-social-reel.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Reel</div><div class="overlay-title">Restaurant Social Reel</div></div>
+            </div>
+            <div class="portfolio-item landscape">
+                <img src="hospitality/account-growth.png" alt="Hospitality Social" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Social Media</div><div class="overlay-title">Account Growth Overview</div></div>
+            </div>
+            <div class="portfolio-item landscape">
+                <img src="hospitality/content-performance.png" alt="Hospitality Social" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Social Media</div><div class="overlay-title">Content Performance</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- REAL ESTATE -->
+    <div class="portfolio-category reveal">
+        <div class="cat-header"><h3>Real Estate Reels & Graphics</h3><div class="line"></div><span class="count">6 pieces</span></div>
+        <div class="portfolio-grid">
+            <div class="portfolio-item reel">
+                <video src="real-estate/property-showcase-reel.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Reel</div><div class="overlay-title">Property Showcase</div></div>
+            </div>
+            <div class="portfolio-item reel">
+                <video src="real-estate/property-tour-reel.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Reel</div><div class="overlay-title">Property Tour</div></div>
+            </div>
+            <div class="portfolio-item reel">
+                <video src="real-estate/paradisa-homes-timelapse.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Reel</div><div class="overlay-title">Paradisa Homes — Timelapse</div></div>
+            </div>
+            <div class="portfolio-item reel">
+                <video src="real-estate/property-marketing-reel.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Reel</div><div class="overlay-title">Property Marketing</div></div>
+            </div>
+            <div class="portfolio-item post">
+                <img src="real-estate/marketing-post.png" alt="Real Estate" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Graphic</div><div class="overlay-title">Marketing Post</div></div>
+            </div>
+            <div class="portfolio-item post">
+                <img src="real-estate/property-graphic.png" alt="Real Estate" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Graphic</div><div class="overlay-title">Property Graphic</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- E-COMMERCE -->
+    <div class="portfolio-category reveal">
+        <div class="cat-header"><h3>E-Commerce</h3><div class="line"></div><span class="count">9 pieces</span></div>
+        <div class="portfolio-grid">
+            <div class="portfolio-item post">
+                <img src="e-commerce/spyder-campaign.jpg" alt="Spyder" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Graphic</div><div class="overlay-title">Spyder — Product Campaign</div></div>
+            </div>
+            <div class="portfolio-item post">
+                <img src="e-commerce/spyder-poster.jpg" alt="Spyder" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Graphic</div><div class="overlay-title">Spyder — Brand Poster</div></div>
+            </div>
+            <div class="portfolio-item post">
+                <img src="e-commerce/product-visual-design.png" alt="E-commerce" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Graphic</div><div class="overlay-title">Product Visual Design</div></div>
+            </div>
+            <div class="portfolio-item post">
+                <img src="e-commerce/product-visual.png" alt="E-commerce" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Graphic</div><div class="overlay-title">Product Visual</div></div>
+            </div>
+            <div class="portfolio-item reel">
+                <video src="e-commerce/product-showcase-reel.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Reel</div><div class="overlay-title">Product Showcase</div></div>
+            </div>
+            <div class="portfolio-item reel">
+                <video src="e-commerce/product-promo-reel.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Reel</div><div class="overlay-title">Product Promo</div></div>
+            </div>
+            <div class="portfolio-item landscape">
+                <img src="e-commerce/social-strategy-results.png" alt="E-commerce Social" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Social Media</div><div class="overlay-title">Social Strategy Results</div></div>
+            </div>
+            <div class="portfolio-item landscape">
+                <img src="e-commerce/brand-visual.jpg" alt="E-commerce" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Creative</div><div class="overlay-title">Brand Visual</div></div>
+            </div>
+            <div class="portfolio-item landscape">
+                <img src="e-commerce/campaign-creative.jpg" alt="E-commerce" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Creative</div><div class="overlay-title">Campaign Creative</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TECH -->
+    <div class="portfolio-category reveal">
+        <div class="cat-header"><h3>Tech</h3><div class="line"></div><span class="count">2 pieces</span></div>
+        <div class="portfolio-grid">
+            <div class="portfolio-item post">
+                <img src="tech/tech-brand-content.png" alt="Tech" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Graphic</div><div class="overlay-title">Tech Brand Content</div></div>
+            </div>
+            <div class="portfolio-item post">
+                <img src="tech/app-brand-identity.png" alt="Tech" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Graphic</div><div class="overlay-title">App Brand Identity</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CLIPPING -->
+    <div class="portfolio-category reveal">
+        <div class="cat-header"><h3>Clipping</h3><div class="line"></div><span class="count">4 pieces</span></div>
+        <div class="portfolio-grid">
+            <div class="portfolio-item reel">
+                <video src="clipping/iphone-vs-pro-cameras.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Clip</div><div class="overlay-title">iPhone vs Pro Cameras</div></div>
+            </div>
+            <div class="portfolio-item reel">
+                <video src="clipping/find-my-phone-guide.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Clip</div><div class="overlay-title">Find My Phone Guide</div></div>
+            </div>
+            <div class="portfolio-item reel">
+                <video src="clipping/icloud-storage-review.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Clip</div><div class="overlay-title">iCloud Storage Review</div></div>
+            </div>
+            <div class="portfolio-item reel">
+                <video src="clipping/short-form-edit.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Clip</div><div class="overlay-title">Short-Form Edit</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FITNESS -->
+    <div class="portfolio-category reveal">
+        <div class="cat-header"><h3>Fitness</h3><div class="line"></div><span class="count">2 pieces</span></div>
+        <div class="portfolio-grid">
+            <div class="portfolio-item reel">
+                <video src="fitness/apiario-space-reel.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Reel</div><div class="overlay-title">Apiario Space</div></div>
+            </div>
+            <div class="portfolio-item reel">
+                <video src="fitness/fitness-brand-reel.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Reel</div><div class="overlay-title">Fitness Brand Reel</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDUCATIONAL AVATAR VIDEOS -->
+    <div class="portfolio-category reveal">
+        <div class="cat-header"><h3>Educational Avatar Videos</h3><div class="line"></div><span class="count">4 pieces</span></div>
+        <div class="portfolio-grid">
+            <div class="portfolio-item reel">
+                <video src="education/ai-avatar-content.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Avatar</div><div class="overlay-title">AI Avatar Content</div></div>
+            </div>
+            <div class="portfolio-item reel">
+                <video src="education/avatar-explainer.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Avatar</div><div class="overlay-title">Avatar Explainer</div></div>
+            </div>
+            <div class="portfolio-item reel">
+                <video src="education/educational-content.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Avatar</div><div class="overlay-title">Educational Content</div></div>
+            </div>
+            <div class="portfolio-item reel">
+                <video src="education/avatar-video-series.mp4" muted playsinline loop preload="metadata"></video>
+                <div class="play-indicator"></div>
+                <div class="overlay"><div class="overlay-tag">Avatar</div><div class="overlay-title">Avatar Video Series</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- YOUTUBE THUMBNAILS -->
+    <div class="portfolio-category reveal">
+        <div class="cat-header"><h3>YouTube Thumbnails</h3><div class="line"></div><span class="count">2 pieces</span></div>
+        <div class="portfolio-grid">
+            <div class="portfolio-item landscape">
+                <img src="youtube-thumbnails/scandinavian-design-thumbnail.png" alt="Thumbnail" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Thumbnail</div><div class="overlay-title">Scandinavian Design</div></div>
+            </div>
+            <div class="portfolio-item landscape">
+                <img src="youtube-thumbnails/custom-thumbnail.jpg" alt="Thumbnail" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Thumbnail</div><div class="overlay-title">Custom Thumbnail</div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WEBSITES -->
+    <div class="portfolio-category reveal">
+        <div class="cat-header"><h3>Websites</h3><div class="line"></div><span class="count">5 pieces</span></div>
+        <div class="portfolio-grid">
+            <div class="portfolio-item landscape">
+                <img src="websites/whole-construction/homepage.png" alt="Website" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Website</div><div class="overlay-title">Whole Construction Solutions</div></div>
+            </div>
+            <div class="portfolio-item landscape">
+                <img src="websites/whole-construction/pages.png" alt="Website" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Website</div><div class="overlay-title">Whole Construction — Pages</div></div>
+            </div>
+            <div class="portfolio-item landscape">
+                <img src="websites/whole-construction/interior.png" alt="Website" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Website</div><div class="overlay-title">Whole Construction — Interior</div></div>
+            </div>
+            <div class="portfolio-item landscape">
+                <img src="websites/ready-tech-help/homepage.png" alt="Website" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Website</div><div class="overlay-title">Ready Tech Help</div></div>
+            </div>
+            <div class="portfolio-item landscape">
+                <img src="websites/ready-tech-help/interior.png" alt="Website" loading="lazy">
+                <div class="overlay"><div class="overlay-tag">Website</div><div class="overlay-title">Ready Tech Help — Interior</div></div>
+            </div>
+        </div>
+    </div>
+
+
+
+</section>
+
+<!-- CLIENTS -->
+<section class="section" id="clients">
+    <div class="section-label reveal">Clients</div>
+    <h2 class="section-heading reveal">Brands I've Grown.</h2>
+    <div class="clients-grid">
+        <div class="client-card reveal reveal-d1"><h4>Pelicano Sydney</h4><p>Hospitality</p></div>
+        <div class="client-card reveal reveal-d2"><h4>Coffee Room Coogee</h4><p>Hospitality</p></div>
+        <div class="client-card reveal reveal-d3"><h4>Khoj Resorts</h4><p>Travel & Resorts</p></div>
+        <div class="client-card reveal reveal-d1"><h4>Abbey Blue Legal</h4><p>Legal</p></div>
+        <div class="client-card reveal reveal-d2"><h4>Refined Landscapes</h4><p>Landscaping</p></div>
+        <div class="client-card reveal reveal-d3"><h4>NovFeed Tanzania</h4><p>Tech & Apps</p></div>
+        <div class="client-card reveal reveal-d1"><h4>Apiario Space</h4><p>Fitness</p></div>
+        <div class="client-card reveal reveal-d2"><h4>Ready Tech Help</h4><p>Tech</p></div>
+        <div class="client-card reveal reveal-d3"><h4>Whole Construction Solutions</h4><p>Construction</p></div>
+    </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="section" id="reviews">
+    <div class="section-label reveal">Testimonials</div>
+    <h2 class="section-heading reveal">Don't Take My Word For It.</h2>
+    <div class="reviews-grid">
+        <div class="review-card reveal reveal-d1">
+            <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="review-text">"Huzaifa has been an outstanding marketing expert to work with, adept at managing social media and influencer outreach. He is hardworking, honest, and extremely hands-on with every task. His proactive approach and attention to detail make a real difference, and he consistently delivers high-quality work. Highly recommend him for any social media strategy."</p>
+            <div class="review-author"><strong>Udie Chicozeni</strong><span>Founder &middot; Media App &middot; UK</span></div>
+        </div>
+        <div class="review-card reveal reveal-d2">
+            <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="review-text">"Huzaifa is fantastic, he has built our social media platforms in a fantastic way and is still working with us now. Very pleased with the attention to detail."</p>
+            <div class="review-author"><strong>Neal Norcale</strong><span>Director &middot; Abbey Blue Legal</span></div>
+        </div>
+        <div class="review-card reveal reveal-d3">
+            <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="review-text">"Nice to have Zaifa with us."</p>
+            <div class="review-author"><strong>BEE</strong><span>Founder &middot; Apiario Space</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- WHY ME -->
+<section class="section" id="why">
+    <div class="section-label reveal">Why Me</div>
+    <h2 class="section-heading reveal">The Difference.</h2>
+    <div class="why-me-list">
+        <div class="why-item reveal"><div class="why-num">01</div><p>Clients don't leave. My average client relationship is over 12 months.</p></div>
+        <div class="why-divider reveal"></div>
+        <div class="why-item reveal"><div class="why-num">02</div><p>I manage the whole machine — strategy, content, editing, posting, reporting.</p></div>
+        <div class="why-divider reveal"></div>
+        <div class="why-item reveal"><div class="why-num">03</div><p>Every platform gets its own voice. No copy-paste content.</p></div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer"><p>&copy; 2025 Huzaifa</p></footer>
+
+<script>
+    // Loader
+    window.addEventListener('load', () => { setTimeout(() => document.getElementById('loader').classList.add('done'), 500); });
+
+    // Cursor
+    const dot = document.getElementById('cursorDot'), ring = document.getElementById('cursorRing');
+    let mx=0, my=0, rx=0, ry=0;
+    document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.transform=`translate(${mx-4}px,${my-4}px)`; });
+    (function anim(){ rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12; ring.style.transform=`translate(${rx-18}px,${ry-18}px)`; requestAnimationFrame(anim); })();
+    if('ontouchstart' in window){ dot.style.display=ring.style.display='none'; document.body.style.cursor='auto'; }
+
+    // Nav
+    const nav=document.getElementById('navbar');
+    window.addEventListener('scroll', ()=> nav.classList.toggle('scrolled', window.scrollY>40));
+    const toggle=document.getElementById('navToggle'), mob=document.getElementById('mobileMenu');
+    toggle.addEventListener('click', ()=> mob.classList.toggle('active'));
+    function closeMobile(){ mob.classList.remove('active'); }
+
+    // Reveal
+    const obs = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // Video hover play (only for muted portfolio videos, not the intro with controls)
+    document.querySelectorAll('.portfolio-item video').forEach(v => {
+        const p = v.closest('.portfolio-item');
+        p.addEventListener('mouseenter', () => v.play().catch(()=>{}));
+        p.addEventListener('mouseleave', () => v.pause());
+        p.addEventListener('touchstart', () => { v.paused ? v.play().catch(()=>{}) : v.pause(); }, { passive: true });
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', function(e){
+        e.preventDefault(); const t=document.querySelector(this.getAttribute('href'));
+        if(t) t.scrollIntoView({ behavior:'smooth', block:'start' });
+    }));
+</script>
+</body>
+</html>
