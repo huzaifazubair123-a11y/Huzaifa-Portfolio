@@ -11,8 +11,8 @@
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
         body {
-            background: #0a0a0a; color: #e0e0e0; font-family: 'Inter', sans-serif;
-            font-weight: 400; line-height: 1.6; overflow-x: hidden; cursor: none;
+            background: #050505; color: #e8e8e8; font-family: 'Inter', sans-serif;
+            font-weight: 400; line-length: 1.6; overflow-x: hidden; cursor: none;
         }
         ::selection { background: #c8ff00; color: #0a0a0a; }
         img, video { display: block; max-width: 100%; }
@@ -48,20 +48,23 @@
         .reveal-d1 { transition-delay: 0.1s; } .reveal-d2 { transition-delay: 0.18s; } .reveal-d3 { transition-delay: 0.26s; } .reveal-d4 { transition-delay: 0.32s; }
 
         /* ===== HERO ===== */
-        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 100px 48px 50px; max-width: 1320px; margin: 0 auto; position: relative; }
-        .hero-row { display: flex; align-items: center; gap: 48px; }
+        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 140px 48px 70px; max-width: 1320px; margin: 0 auto; position: relative; background: url('hero-bg.gif') center/cover no-repeat; border-radius: 18px; overflow: hidden; }
+        .hero::before { content:''; position:absolute; inset:0; background: linear-gradient(110deg, rgba(0,0,0,0.78), rgba(0,0,0,0.4) 45%, rgba(0,0,0,0.75)); backdrop-filter: blur(1px); z-index:0; }
+        .hero::after { content:''; position:absolute; inset:0; background: radial-gradient(circle at 15% 20%, rgba(200,255,0,0.25), transparent 35%), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.08), transparent 45%); z-index:0; mix-blend-mode: screen; }
+        .hero-row { position: relative; z-index:1; display: flex; align-items: center; gap: 56px; }
         .hero-text { flex: 1; }
-        .hero-photo { width: 200px; height: 200px; border-radius: 50%; overflow: hidden; border: 2px solid rgba(200,255,0,0.12); flex-shrink: 0; }
+        .hero-card { background: rgba(0,0,0,0.36); border: 1px solid rgba(200,255,0,0.15); border-radius: 16px; padding: 28px 28px 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.45); backdrop-filter: blur(6px); }
+        .hero-photo { width: 260px; height: 260px; border-radius: 24px; overflow: hidden; border: 2px solid rgba(200,255,0,0.25); box-shadow: 0 16px 50px rgba(0,0,0,0.55); flex-shrink: 0; }
         .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
-        .hero h1 { font-size: clamp(2.2rem, 5.2vw, 4.5rem); line-height: 1.06; letter-spacing: -2.5px; color: #fff; margin-bottom: 18px; }
+        .hero h1 { font-size: clamp(2.6rem, 6vw, 5.2rem); line-height: 1.02; letter-spacing: -2.6px; color: #f6f6f6; margin-bottom: 18px; text-transform: uppercase; }
         .hero h1 .accent { color: #c8ff00; }
-        .hero-sub { font-size: clamp(0.92rem, 1.3vw, 1.05rem); color: rgba(255,255,255,0.48); max-width: 560px; line-height: 1.7; margin-bottom: 28px; font-weight: 300; }
+        .hero-sub { font-size: clamp(1rem, 1.5vw, 1.2rem); color: rgba(255,255,255,0.82); max-width: 640px; line-height: 1.8; margin-bottom: 28px; font-weight: 400; text-shadow: 0 8px 30px rgba(0,0,0,0.6); }
         .hero-pills { display: flex; gap: 10px; flex-wrap: wrap; }
-        .pill { display: inline-flex; align-items: center; gap: 7px; padding: 7px 18px; border: 1px solid rgba(200,255,0,0.15); border-radius: 100px; font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.65); background: rgba(200,255,0,0.03); }
+        .pill { display: inline-flex; align-items: center; gap: 7px; padding: 9px 18px; border: 1.2px solid rgba(200,255,0,0.4); border-radius: 100px; font-size: 0.82rem; font-weight: 600; color: rgba(255,255,255,0.9); background: rgba(200,255,0,0.08); box-shadow: 0 10px 25px rgba(0,0,0,0.35); }
         .pill .num { color: #c8ff00; font-family: 'Syne', sans-serif; font-weight: 800; }
-        .scroll-indicator { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 5px; }
-        .scroll-indicator span { font-size: 0.58rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.18); }
-        .scroll-line { width: 1px; height: 36px; background: linear-gradient(to bottom, #c8ff00, transparent); animation: scrollPulse 2s ease-in-out infinite; }
+        .scroll-indicator { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; z-index:1; }
+        .scroll-indicator span { font-size: 0.68rem; letter-spacing: 3.5px; text-transform: uppercase; color: rgba(255,255,255,0.7); text-shadow: 0 6px 18px rgba(0,0,0,0.6); }
+        .scroll-line { width: 2px; height: 44px; background: linear-gradient(to bottom, #c8ff00, transparent); animation: scrollPulse 1.8s ease-in-out infinite; box-shadow: 0 6px 16px rgba(0,0,0,0.45); }
         @keyframes scrollPulse { 0%,100% { opacity: 0.3; transform: scaleY(0.6); } 50% { opacity: 1; transform: scaleY(1); } }
 
         /* ===== INTRO VIDEO ===== */
@@ -163,9 +166,9 @@
             nav { padding: 12px 20px; }
             .nav-links { display: none; }
             .nav-toggle { display: flex; }
-            .hero { padding: 90px 20px 40px; }
-            .hero-row { flex-direction: column-reverse; gap: 24px; align-items: flex-start; }
-            .hero-photo { width: 110px; height: 110px; }
+            .hero { padding: 100px 20px 50px; }
+            .hero-row { flex-direction: column-reverse; gap: 28px; align-items: flex-start; }
+            .hero-photo { width: 180px; height: 180px; border-radius: 18px; }
             .section { padding: 40px 20px; }
             .services-grid { grid-template-columns: 1fr; gap: 10px; }
             .portfolio-grid { columns: 2; column-gap: 8px; }
@@ -213,14 +216,18 @@
 <section class="hero" id="hero">
     <div class="hero-row">
         <div class="hero-text">
-            <h1 class="reveal">Social Media<br>That Actually<br><span class="accent">Builds Brands.</span></h1>
-            <p class="hero-sub reveal reveal-d1">I'm Huzaifa &mdash; Social Media Manager & Content Strategist helping businesses grow with content that connects, converts, and keeps clients coming back.</p>
-            <div class="hero-pills reveal reveal-d2">
-                <div class="pill"><span class="num">3+</span> Years Experience</div>
-                <div class="pill"><span class="num">12+</span> Brands Managed</div>
+        <div class="hero-card reveal">
+                <h1>Social Media<br>That Actually<br><span class="accent">Builds Brands.</span></h1>
+                <p class="hero-sub reveal reveal-d1">I'm Huzaifa &mdash; Social Media Manager & Content Strategist helping businesses grow with content that connects, converts, and keeps clients coming back.</p>
+                <div class="hero-pills reveal-d2">
+                    <div class="pill"><span class="num">3+</span> Years Experience</div>
+                    <div class="pill"><span class="num">12+</span> Brands Managed</div>
+                    <div class="pill"><span class="num">50M+</span> Views Generated</div>
+                    <div class="pill"><span class="num">6</span> Niches Mastered</div>
+                </div>
             </div>
         </div>
-        <div class="hero-photo reveal reveal-d2">
+        <div class="hero-photo reveal reveal-d3">
             <img src="profile.jpg" alt="Huzaifa portrait">
         </div>
     </div>
