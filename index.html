@@ -12,7 +12,7 @@
         html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
         body {
             background: #050505; color: #e8e8e8; font-family: 'Inter', sans-serif;
-            font-weight: 400; line-length: 1.6; overflow-x: hidden; cursor: none;
+            font-weight: 400; line-height: 1.6; overflow-x: hidden; cursor: none;
         }
         ::selection { background: #c8ff00; color: #0a0a0a; }
         img, video { display: block; max-width: 100%; }
@@ -160,13 +160,16 @@
         @media (max-width: 768px) {
             nav { padding: 12px 20px; }
             .nav-links { display: none; }
-            .nav-toggle { display: flex; }
-            .hero { padding: 100px 20px 50px; }
+            .nav-toggle { display: flex; gap: 6px; padding: 8px; }
+            .nav-toggle span { width: 24px; height: 2px; }
+            .hero { padding: 110px 20px 60px; background-position: center; }
+            .hero::before { background: linear-gradient(120deg, rgba(0,0,0,0.75), rgba(0,0,0,0.6) 55%, rgba(0,0,0,0.8)); }
             .hero-row { flex-direction: column-reverse; gap: 28px; align-items: flex-start; }
             .hero-photo { width: 180px; height: 180px; border-radius: 18px; }
+            .hero-card { padding: 22px 20px 20px; }
             .section { padding: 40px 20px; }
             .services-grid { grid-template-columns: 1fr; gap: 10px; }
-            .portfolio-grid { columns: 2; column-gap: 8px; }
+            .portfolio-grid { columns: 1; column-gap: 8px; }
             .portfolio-item { margin-bottom: 8px; }
             .clients-grid { grid-template-columns: repeat(2,1fr); gap: 8px; }
             .reviews-grid { gap: 10px; }
@@ -178,6 +181,7 @@
             .pill { padding: 6px 12px; font-size: 0.72rem; }
             .clients-grid { grid-template-columns: 1fr 1fr; }
             .cat-header h3 { font-size: 0.95rem; }
+            .portfolio-grid { columns: 1; }
         }
     </style>
 </head>
